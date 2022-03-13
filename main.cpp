@@ -13,6 +13,7 @@ int main(){
 	std::cout << isValid("((") << std::endl;
 	std::cout << isValid("({}") << std::endl;
 	std::cout << isValid("{") << std::endl;
+	std::cout << isValid("}") << std::endl;
 }
 
 
