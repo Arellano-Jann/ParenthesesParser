@@ -47,14 +47,15 @@ int main(){
             
             // bool currentValidity = (parentheses == 0 && curly == 0 && square == 0);
             bool currentlyValid = (parentheses + curly + square == 0);
-
-			if ( parentheses == 0 && i == closedParentheses && ( ((closedParentheses + openParentheses) % 2) != ((openParentheses+1) % 2)) ) return false;
+            
+            // only executes if current index is a closing parentheses that incorrectly closes
+			if ( parentheses == 0 && i == closedParentheses && ( ((closedParentheses + openParentheses) % 2) != ((2*openParentheses+1) % 2)) ) return false;
 			// else{ return false; }
 
-			if ( curly == 0 && i == closedCurly && ( ((closedCurly + openCurly) % 2) != ((openCurly+1) % 2)) ) return false;
+			if ( curly == 0 && i == closedCurly && ( ((closedCurly + openCurly) % 2) != ((2*openCurly+1) % 2)) ) return false;
 			// else{ return false; }
 
-			if ( square == 0 && i == closedSquare && ( ((closedCurly + openSquare) % 2) != ((openSquare+1) % 2)) ) return false;
+			if ( square == 0 && i == closedSquare && ( ((closedCurly + openSquare) % 2) != ((2*openSquare+1) % 2)) ) return false;
 			// else{ return false; }
             // for (int j = i+1; j < s.length(); j++){
                 // if (s[i] == map[3]) valid = currentlyValid;
