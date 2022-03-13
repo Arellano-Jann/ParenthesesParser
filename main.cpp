@@ -1,7 +1,17 @@
 #include <iostream>
+bool isValid(std::string s);
 
 int main(){
-
+	std::cout << isValid("()") << std::endl; // true
+	std::cout << isValid("()[]{}") << std::endl; // true
+	std::cout << isValid("()") << std::endl; // true
+	std::cout << isValid("({})") << std::endl; // true
+	std::cout << isValid("{}") << std::endl; // true
+	std::cout << isValid("(]") << std::endl;
+	std::cout << isValid("({)}") << std::endl;
+	std::cout << isValid("((") << std::endl;
+	std::cout << isValid("({}") << std::endl;
+	std::cout << isValid("{") << std::endl;
 }
 
 
