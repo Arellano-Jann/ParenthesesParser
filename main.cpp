@@ -7,6 +7,7 @@ int main(){
 	std::cout << isValid("()") << std::endl; // true
 	std::cout << isValid("({})") << std::endl; // true
 	std::cout << isValid("{}") << std::endl; // true
+	std::cout << std::endl;
 	std::cout << isValid("(]") << std::endl;
 	std::cout << isValid("({)}") << std::endl;
 	std::cout << isValid("((") << std::endl;
@@ -17,34 +18,47 @@ int main(){
 
     bool isValid(std::string s) {
         bool valid = true;
-        char map[] = {'(', '{', '[', ')', '}', ']'};
+        char map[] = { '(', '{', '[', ')', '}', ']' };
         int parentheses = 0;
         int curly = 0;
         int square = 0;
+		int openParentheses = 0;
+        int openCurly = 0;
+        int openSquare = 0;
+		int closedParentheses = 0;
+        int closedCurly = 0;
+        int closedSquare = 0;
         
         for (int i = 0; i < s.length(); i++){
-            if ( s[i] == map[0] ) parentheses++;
-            if ( s[i] == map[1] ) curly++;
-            if ( s[i] == map[2] ) square++;
-            // if ( s[i] == map[3] ) parentheses--;
-            // if ( s[i] == map[4] ) curly--;
-            // if ( s[i] == map[5] ) square--; // checks if all brackets get closed
-            if ( s[i] == map[3] && parentheses>0 ) parentheses--;
-            if ( s[i] == map[4] && curly>0 ) curly--;
-            if ( s[i] == map[5] && square>0 ) square--; // checks if all brackets get closed
+            if ( s[i] == map[0] ){ openParentheses = i; parentheses++; }
+            if ( s[i] == map[1] ){ openCurly = i; curly++; }
+            if ( s[i] == map[2] ){ openSquare = i; square++; }
+            if ( s[i] == map[3] ){ closedParentheses = i; parentheses--; }
+            if ( s[i] == map[4] ){ closedCurly = i; curly--; }
+            if ( s[i] == map[5] ){ closedSquare = i; square--; } // checks if all brackets get closed
+            // if ( s[i] == map[3] && parentheses>0 ) parentheses--;
+            // if ( s[i] == map[4] && curly>0 ) curly--;
+            // if ( s[i] == map[5] && square>0 ) square--; // checks if all brackets get closed
+			if (parentheses<0 || curly<0 || square<0 ) return false; // checks for incorrectly closed parentheses
             
                         
             
             
             // bool currentValidity = (parentheses == 0 && curly == 0 && square == 0);
             bool currentlyValid = (parentheses + curly + square == 0);
+			
+			if ( i == closedParentheses && (closedParentheses + openParentheses % 2 == closedParentheses % 2) ) valid = currentlyValid;
+
+			if ( i == closedCurly && (closedCurly + openCurly % 2 == closedCurly % 2) ) valid = currentlyValid;
+
+			if ( i == closedSquare && (closedCurly + openSquare % 2 == closedSquare % 2) ) valid = currentlyValid;
             // for (int j = i+1; j < s.length(); j++){
                 // if (s[i] == map[3]) valid = currentlyValid;
                 // if (s[i] == map[4]) valid = currentlyValid;
                 // if (s[i] == map[5]) valid = currentlyValid;
-            if (s[i] == map[3]) return currentlyValid;
-            if (s[i] == map[4]) return currentlyValid;
-            if (s[i] == map[5]) return currentlyValid;
+            // if (s[i] == map[3]) return currentlyValid;
+            // if (s[i] == map[4]) return currentlyValid;
+            // if (s[i] == map[5]) return currentlyValid;
             // }
         }
         if (parentheses + curly + square > 0) return false;
