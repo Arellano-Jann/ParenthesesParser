@@ -33,9 +33,9 @@ bool isValid(std::string s) {
             case '[':
                 openBrackets.push(s[i]); break;
             case ')':
-                if (openBrackets.empty()) return false;
-                else if (openBrackets.top() == '(') openBrackets.pop();
-                else return false;
+                if (openBrackets.empty()) return false; // checks for incorrectly closed brackets i.e. )
+                else if (openBrackets.top() == '(') openBrackets.pop(); // checks if you can close the brackets
+                else return false; // returns false if ({) etc.
                 break;
             case '}':
                 if (openBrackets.empty()) return false;
@@ -49,8 +49,8 @@ bool isValid(std::string s) {
                 break;
         }
     }
-    if (openBrackets.empty()) return true;
-    return false;
+    if (openBrackets.empty()) return true; // checks if all open brackets have a correct closing bracket to them
+    return false; // guards against some openning brackets not having a closing bracket
 }
 
 
