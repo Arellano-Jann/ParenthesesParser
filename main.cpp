@@ -33,18 +33,18 @@ bool isValid(std::string s) {
             case '[':
                 openBrackets.push(s[i]); break;
             case ')':
-                // if (openBrackets.empty()) return false;
-                if (openBrackets.top() == '(') openBrackets.pop();
+                if (openBrackets.empty()) return false;
+                else if (openBrackets.top() == '(') openBrackets.pop();
                 else return false;
                 break;
             case '}':
-                // if (openBrackets.empty()) return false;
-                if (openBrackets.top() == '{') openBrackets.pop();
+                if (openBrackets.empty()) return false;
+                else if (openBrackets.top() == '{') openBrackets.pop();
                 else return false;
                 break;
             case ']':
-                // if (openBrackets.empty()) return false;
-                if (openBrackets.top() == '[') openBrackets.pop();
+                if (openBrackets.empty()) return false;
+                else if (openBrackets.top() == '[') openBrackets.pop();
                 else return false;
                 break;
         }
