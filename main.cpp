@@ -23,7 +23,7 @@ int main(){
 
 bool isValid(std::string s) {
     std::stack<char> openBrackets;
-    // if (s.length() % 2 == 1) return false;
+    if (s.length() % 2 == 1) return false;
     for (int i = 0; i < s.length(); i++){
         switch (s[i]){
             case '(':
@@ -33,18 +33,18 @@ bool isValid(std::string s) {
             case '[':
                 openBrackets.push(s[i]); break;
             case ')':
-                if (openBrackets.empty()) return false;
-                else if (openBrackets.top() == '(') openBrackets.pop();
+                // if (openBrackets.empty()) return false;
+                if (openBrackets.top() == '(') openBrackets.pop();
                 else return false;
                 break;
             case '}':
-                if (openBrackets.empty()) return false;
-                else if (openBrackets.top() == '{') openBrackets.pop();
+                // if (openBrackets.empty()) return false;
+                if (openBrackets.top() == '{') openBrackets.pop();
                 else return false;
                 break;
             case ']':
-                if (openBrackets.empty()) return false;
-                else if (openBrackets.top() == '[') openBrackets.pop();
+                // if (openBrackets.empty()) return false;
+                if (openBrackets.top() == '[') openBrackets.pop();
                 else return false;
                 break;
         }
