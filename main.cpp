@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stack>
 bool isValid(std::string s);
 
 int main(){
@@ -20,69 +21,102 @@ int main(){
     std::cout << isValid("((()))()()(") << std::endl; // true
 }
 
-//Recusive Implementation
 bool isValid(std::string s) {
-        if (s.length() % 2 == 1) return false;
-        bool valid = true;
-        char map[] = { '(', '{', '[', ')', '}', ']' };
-        int parentheses = 0;
-        int curly = 0;
-        int square = 0;
-		// int openParentheses = -1;
-        // int openCurly = -1;
-        // int openSquare = -1;
-		// int closedParentheses = -1;
-        // int closedCurly = -1;
-        // int closedSquare = -1;
-        
-        int closerType = -1;
-        int closer = 0;
-        std::string insideParentheses = "";
-        bool addToString = false;
-
-        // if ( s[0] == map[0] ){ openParentheses = 0; parentheses++; }
-        // if ( s[0] == map[1] ){ openCurly = 0; curly++; }
-        // if ( s[0] == map[2] ){ openSquare = 0; square++; }
-        switch(s[0]){
-            case '(': 
-                parentheses++; closerType = 3; break;
-            case '{': 
-                curly++; closerType = 4; break;
-            case '[': 
-                square++; closerType = 5; break;
+    std::stack<char> openBrackets;
+    // if (s.length() % 2 == 1) return false;
+    for (int i = 0; i < s.length(); i++){
+        switch (s[i]){
+            case '(':
+                openBrackets.push(s[i]); break;
+            case '{':
+                openBrackets.push(s[i]); break;
+            case '[':
+                openBrackets.push(s[i]); break;
+            case ')':
+                if (openBrackets.empty()) return false;
+                else if (openBrackets.top() == '(') openBrackets.pop();
+                else return false;
+                break;
+            case '}':
+                if (openBrackets.empty()) return false;
+                else if (openBrackets.top() == '{') openBrackets.pop();
+                else return false;
+                break;
+            case ']':
+                if (openBrackets.empty()) return false;
+                else if (openBrackets.top() == '[') openBrackets.pop();
+                else return false;
+                break;
         }
-        
-        for (int i = s.length()-1; i > 0; i--){ // cuts off first letter
-            
-            if (!addToString && s[i] == closerType){ // cuts off last letter
-                closer = i;
-                addToString = true;
-            }
-            else{ return false; } // ending parentheses not found
-            if (addToString){
-                insideParentheses.insert(0, 1, s[i]); // string& insert (size_t pos, size_t n, char c);
-            }
-        
-            if ( s[i] == map[0] ){ parentheses++; }
-            if ( s[i] == map[1] ){ curly++; }
-            if ( s[i] == map[2] ){ square++; }
-            if ( s[i] == map[3] ){ parentheses--; }
-            if ( s[i] == map[4] ){ curly--; }
-            if ( s[i] == map[5] ){ square--; } // checks if all brackets get closed
-
-			if (parentheses<0 || curly<0 || square<0 ) return false; // checks for incorrectly closed parentheses
-        }
-        valid = (parentheses + curly + square == 0);
-        if (valid && closer != 1){ // checks if "()" edge cases
-            isValid(insideParentheses);
-        }
-        else { return false; } // checks for correct number of parentheses
-        // if (parentheses + curly + square > 0) return false; // not sure if this works w this implementation
-        if (closer < s.length()-1){
-            isValid(s.substr(closer+1, std::string::npos));
-        }
-        return true;
     }
+    if (openBrackets.empty()) return true;
+    return false;
+}
+
+
+// //Recusive Implementation
+// bool isValid(std::string s) {
+//         if (s.length() % 2 == 1) return false;
+//         bool valid = true;
+//         char map[] = { '(', '{', '[', ')', '}', ']' };
+//         int parentheses = 0;
+//         int curly = 0;
+//         int square = 0;
+// 		// int openParentheses = -1;
+//         // int openCurly = -1;
+//         // int openSquare = -1;
+// 		// int closedParentheses = -1;
+//         // int closedCurly = -1;
+//         // int closedSquare = -1;
+        
+//         int closerType = -1;
+//         int closer = 0;
+//         std::string insideParentheses = "";
+//         bool addToString = false;
+
+//         // if ( s[0] == map[0] ){ openParentheses = 0; parentheses++; }
+//         // if ( s[0] == map[1] ){ openCurly = 0; curly++; }
+//         // if ( s[0] == map[2] ){ openSquare = 0; square++; }
+//         switch(s[0]){
+//             case '(': 
+//                 parentheses++; closerType = 3; break;
+//             case '{': 
+//                 curly++; closerType = 4; break;
+//             case '[': 
+//                 square++; closerType = 5; break;
+//         }
+        
+//         for (int i = s.length()-1; i > 0; i--){ // cuts off first letter
+            
+//             if (!addToString && s[i] == closerType){ // cuts off last letter
+//                 closer = i;
+//                 addToString = true;
+//             }
+//             else{ return false; } // ending parentheses not found
+//             if (addToString){
+//                 insideParentheses.insert(0, 1, s[i]); // string& insert (size_t pos, size_t n, char c);
+//             }
+        
+//             if ( s[i] == map[0] ){ parentheses++; }
+//             if ( s[i] == map[1] ){ curly++; }
+//             if ( s[i] == map[2] ){ square++; }
+//             if ( s[i] == map[3] ){ parentheses--; }
+//             if ( s[i] == map[4] ){ curly--; }
+//             if ( s[i] == map[5] ){ square--; } // checks if all brackets get closed
+
+// 			if (parentheses<0 || curly<0 || square<0 ) return false; // checks for incorrectly closed parentheses
+//         }
+//         valid = (parentheses + curly + square == 0);
+//         if (valid && closer != 1){ // checks if "()" edge cases
+//             isValid(insideParentheses);
+//         }
+//         else { return false; } // checks for correct number of parentheses
+//         // if (parentheses + curly + square > 0) return false; // not sure if this works w this implementation
+//         if (closer < s.length()-1){
+//             isValid(s.substr(closer+1, std::string::npos));
+//         }
+//         return true;
+//     }
 
     // Standard Looping
     // bool isValid(std::string s) {
